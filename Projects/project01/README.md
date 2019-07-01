@@ -1,3 +1,13 @@
+# Project 01
+
+## What I Modified in this boilerplate
+
+As express server could not distinguish between endpoints `block/:hash` and `block/:height`, I created different endpoint `blockHash/:hash`.
+
+You can find it in `BlockchainController.js`, Line 82 (`getBlockHash()`).
+
+-----
+
 # Private Blockchain Application
 
 You are starting your journey as a Blockchain Developer, this project allows you to demonstrate
@@ -38,7 +48,7 @@ too but making sure the application know who owned each star.
     ```
 5. The application will verify if the time elapsed from the request ownership (the time is contained in the message) and the time when you submit the star is less than 5 minutes.
 6. If everything is okay the star information will be stored in the block and added to the `chain`
-7. The application will allow us to retrieve the Star objects belong to an owner (wallet address). 
+7. The application will allow us to retrieve the Star objects belong to an owner (wallet address).
 
 
 ## What tools or technologies you will use to create this application?
@@ -88,7 +98,7 @@ You can check in your terminal the the Express application is listening in the P
 ## What do I need to implement to satisfy my employer requirements?
 
 1. `block.js` file. In the `Block` class we are going to implement the method:
-    `validate()`. 
+    `validate()`.
     /**
      *  The `validate()` method will validate if the block has been tampered or not.
      *  Been tampered means that someone from outside the application tried to change
@@ -109,22 +119,22 @@ You can check in your terminal the the Express application is listening in the P
      *  
      *  1. Use hex2ascii module to decode the data
      *  2. Because data is a javascript object use JSON.parse(string) to get the Javascript Object
-     *  3. Resolve with the data and make sure that you don't need to return the data for the `genesis block` 
+     *  3. Resolve with the data and make sure that you don't need to return the data for the `genesis block`
      *     or Reject with an error.
      */
 3. `blockchain.js` file. In the `Blockchain` class we are going to implement the method:
     `_addBlock(block)`.
     /**
      * _addBlock(block) will store a block in the chain
-     * @param {*} block 
+     * @param {*} block
      * The method will return a Promise that will resolve with the block added
      * or reject if an error happen during the execution.
      * You will need to check for the height to assign the `previousBlockHash`,
-     * assign the `timestamp` and the correct `height`...At the end you need to 
-     * create the `block hash` and push the block into the chain array. Don't for get 
+     * assign the `timestamp` and the correct `height`...At the end you need to
+     * create the `block hash` and push the block into the chain array. Don't for get
      * to update the `this.height`
-     * Note: the symbol `_` in the method name indicates in the javascript convention 
-     * that this method is a private method. 
+     * Note: the symbol `_` in the method name indicates in the javascript convention
+     * that this method is a private method.
      */
 4. `blockchain.js` file. In the `Blockchain` class we are going to implement the method:
     `requestMessageOwnershipVerification(address)`
@@ -134,7 +144,7 @@ You can check in your terminal the the Express application is listening in the P
      * sign it with your Bitcoin Wallet (Electrum or Bitcoin Core)
      * This is the first step before submit your Block.
      * The method return a Promise that will resolve with the message to be signed
-     * @param {*} address 
+     * @param {*} address
      */
 5. `blockchain.js` file. In the `Blockchain` class we are going to implement the method:
     `submitStar(address, message, signature, star)`
@@ -150,10 +160,10 @@ You can check in your terminal the the Express application is listening in the P
      * 4. Veify the message with wallet address and signature: `bitcoinMessage.verify(message, address, signature)`
      * 5. Create the block and add it to the chain
      * 6. Resolve with the block added.
-     * @param {*} address 
-     * @param {*} message 
-     * @param {*} signature 
-     * @param {*} star 
+     * @param {*} address
+     * @param {*} message
+     * @param {*} signature
+     * @param {*} star
      */
 6. `blockchain.js` file. In the `Blockchain` class we are going to implement the method:
     `getBlockByHash(hash)`
@@ -161,15 +171,15 @@ You can check in your terminal the the Express application is listening in the P
      * This method will return a Promise that will resolve with the Block
      *  with the hash passed as a parameter.
      * Search on the chain array for the block that has the hash.
-     * @param {*} hash 
+     * @param {*} hash
      */
 7. `blockchain.js` file. In the `Blockchain` class we are going to implement the method:
     `getStarsByWalletAddress (address)`
     /**
-     * This method will return a Promise that will resolve with an array of Stars objects existing in the chain 
+     * This method will return a Promise that will resolve with an array of Stars objects existing in the chain
      * and are belongs to the owner with the wallet address passed as parameter.
-     * 
-     * @param {*} address 
+     *
+     * @param {*} address
      */
 8. `blockchain.js` file. In the `Blockchain` class we are going to implement the method:
     `validateChain()`

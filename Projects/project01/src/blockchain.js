@@ -185,6 +185,8 @@ class Blockchain {
      * Remember the star should be returned decoded.
      * @param {*} address
      */
+     // 여기 고쳐야 함;;
+     // 전송한 데이터(star)는 star로, "owner"는 비트코인 지갑 주소로
     getStarsByWalletAddress (address) {
         let self = this;
         // let stars = [];
@@ -196,9 +198,12 @@ class Blockchain {
             })
             // console.log(data)
             const stars = data.map((each) => {
-              return each.getBData().star
+              const blockData = each.getBData()
+              return {
+                owner: blockData.address,
+                star: blockData.star
+              }
             })
-
             resolve(stars)
         });
     }
@@ -213,8 +218,16 @@ class Blockchain {
         let self = this;
         let errorLog = [];
         return new Promise(async (resolve, reject) => {
-            self.chain.map((block, index) => {
-                if (block.validate()) errorLog.push(`Block ${index} is tampered`)
+            self.chain.map(async (block, index) => {
+                if (await !block.validate()) errorLog.push(`Block ${index} is tampered`)
+                if (index !== 0) {
+                  // only if the block is not the genesis block
+                  // if previous block is tampered, then it should not match with the `previousBlockHash`
+                  if (self.chain[index-1].hash !== block.previousBlockHash) errorLog.push(`Block ${index-1} is tampered`)
+                  // latest block == bigger index
+                  // block n's previous block == block n-1
+                  // in this suggestion, self.chain[index-1].hash == block.previousBlockHash
+                }
             })
             resolve(errorLog)
         });
